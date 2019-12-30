@@ -2,6 +2,8 @@ package com.tavi.duongnt.user_service.controller.user;
 
 import com.tavi.duongnt.user_service.entities.json.JsonResult;
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
+import com.tavi.duongnt.user_service.security.JWTService;
+import com.tavi.duongnt.user_service.security.SecurityConstants;
 import com.tavi.duongnt.user_service.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/api/v1/public/user")
 public class UserController {
+
+    @Autowired
+    private JWTService jwtService;
 
     @Autowired
     UserService userService;
@@ -44,7 +49,7 @@ public class UserController {
         if (userEntity.getUsername() != null && userEntity.getPassword() != null ) {
             UserEntity user = userService.findByUsernameAndPasswordAndDeleted(userEntity.getUsername(), userEntity.getPassword(), false);
             if (user != null) {
-                return ResponseEntity.ok(JsonResult.build("login success", user));
+                return ResponseEntity.ok(JsonResult.build("login success", jwtService.generateToken(user.getUsername(), SecurityConstants.EXPIRATION_TIME)));
             }
             return ResponseEntity.ok(JsonResult.build("login fail", "username or password is not correct"));
         }

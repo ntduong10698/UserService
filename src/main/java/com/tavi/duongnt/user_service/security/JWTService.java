@@ -14,11 +14,11 @@ import static com.tavi.duongnt.user_service.security.SecurityConstants.*;
 public class JWTService {
 
     //Tạo token
-    public String generateToken(String username) {
+    public String generateToken(String username, long expirationTime) {
 
         return TOKEN_PREFIX + JWT.create()
                 .withSubject(username)
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .sign(Algorithm.HMAC512(SECRET.getBytes()));
     }
 
