@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Data
-@Table(name = "societies", schema = "dbo", catalog = "user_service")
+@Table(name = "tb_Societies_CMS", schema = "dbo")
 public class SocietyEntity implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

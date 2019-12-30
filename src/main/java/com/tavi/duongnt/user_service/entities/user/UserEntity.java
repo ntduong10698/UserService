@@ -36,9 +36,6 @@ public class UserEntity implements Serializable {
 
     private String birthday;
 
-    @Column(name = "society_user")
-    private String societyUser;
-
     @Column(name = "init_date", nullable = false)
     @Nullable
     private String initDate;
@@ -48,7 +45,6 @@ public class UserEntity implements Serializable {
     private int status;
 
     private boolean deleted = false;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "society_id")
