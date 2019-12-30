@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "users", schema = "dbo", catalog = "user_service")
+@Table(name = "tb_User_CMS", schema = "dbo")
 public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,9 +45,12 @@ public class UserEntity implements Serializable {
 
     @Nullable
     @Column(nullable = false)
-    private boolean status;
+    private int status;
+
+    private boolean deleted = false;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "society_id")
-    private SocietyEntity socieity;
+    private SocietyEntity society;
 }

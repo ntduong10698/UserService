@@ -21,8 +21,8 @@ public class UserController {
     public ResponseEntity<JsonResult> register(@RequestBody UserEntity userEntity) {
         if (userEntity.getId() == null && userEntity.getEmail() != null
                 && userEntity.getUsername() != null && userEntity.getPassword() != null) {
-            long count  = userService.countByUsernameAndStatus(userEntity.getUsername(), true);
-            long countEmail = userService.countByEmailAndStatus(userEntity.getEmail(), true);
+            long count  = userService.countByUsernameAndDeleted(userEntity.getUsername(), false);
+            long countEmail = userService.countByEmailAndDeleted(userEntity.getEmail(), false);
             String text = "";
             if (count > 0) {
                 text = "username existed";
@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<JsonResult> login(@RequestBody UserEntity userEntity) {
         if (userEntity.getUsername() != null && userEntity.getPassword() != null ) {
-            UserEntity user = userService.findByUsernameAndPasswordAndStatus(userEntity.getUsername(), userEntity.getPassword(), true);
+            UserEntity user = userService.findByUsernameAndPasswordAndDeleted(userEntity.getUsername(), userEntity.getPassword(), false);
             if (user != null) {
                 return ResponseEntity.ok(JsonResult.build("login success", user));
             }

@@ -59,9 +59,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserEntity findById(int id, boolean status) {
+    public UserEntity findById(int id, boolean deleted) {
         try {
-            return userRepository.findByIdAndStatus(id, status);
+            return userRepository.findByIdAndDeleted(id, deleted);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "delete-by-societyId-error: {0}", ex.getMessage());
             return null;
@@ -69,11 +69,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public long countByUsernameAndStatus(String username, boolean status) {
+    public long countByUsernameAndDeleted(String username, boolean deleted) {
         try {
-            return userRepository.countByUsernameAndStatus(username, status);
+            return userRepository.countByUsernameAndDeleted(username, deleted);
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "count-by-username-and-status: {0}", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "count-by-username-and-deleted: {0}", ex.getMessage());
             return 0;
         }
     }
@@ -82,13 +82,11 @@ public class UserServiceImp implements UserService {
     public UserEntity register(UserEntity userEntity) {
         try {
             userEntity.setPassword(getSHA256(userEntity.getPassword()));
-            userEntity.setStatus(true);
-            userEntity.setSocieity(null);
+            userEntity.setSociety(null);
             userEntity.setSocietyUser(null);
             LocalDate date = LocalDate.now();
             userEntity.setInitDate(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
-            UserEntity newUser = userRepository.save(userEntity);
-            return newUser;
+            return userRepository.save(userEntity);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "register: {0}", ex.getMessage());
             return null;
@@ -96,22 +94,22 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public long countByEmailAndStatus(String email, boolean status) {
+    public long countByEmailAndDeleted(String email, boolean deleted) {
         try {
-            return userRepository.countByEmailAndStatus(email, status);
+            return userRepository.countByEmailAndDeleted(email, deleted);
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "count-by-email-and-status: {0}", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "count-by-email-and-deleted: {0}", ex.getMessage());
             return 0;
         }
     }
 
     @Override
-    public UserEntity findByUsernameAndPasswordAndStatus(String username, String password, boolean status) {
+    public UserEntity findByUsernameAndPasswordAndDeleted(String username, String password, boolean deleted) {
         try {
-            UserEntity user = userRepository.findByUsernameAndPasswordAndStatus(username, getSHA256(password), status);
+            UserEntity user = userRepository.findByUsernameAndPasswordAndDeleted(username, getSHA256(password), deleted);
             return user;
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "find-by-username-and-password-and-status: {0}", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "find-by-username-and-password-and-deleted: {0}", ex.getMessage());
             return null;
         }
     }
