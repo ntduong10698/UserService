@@ -13,7 +13,6 @@ public class ViewController {
     }
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public String login(Model model) {
-        System.out.println("login");
         return "login";
     }
 }
