@@ -1,6 +1,7 @@
 package com.tavi.duongnt.user_service.service_imp.user;
 
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
+import com.tavi.duongnt.user_service.payload.user.RegisterForm;
 import com.tavi.duongnt.user_service.repository.user.UserRepository;
 import com.tavi.duongnt.user_service.service.user.UserService;
 import io.swagger.models.auth.In;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
@@ -79,11 +81,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserEntity register(UserEntity userEntity) {
+    public UserEntity register(RegisterForm registerForm) {
         try {
+            UserEntity userEntity = UserEntity.builder().username(registerForm.getUsername())
+                    .password(registerForm.getPassword())
+                    .email(registerForm.getEmail()).build();
             userEntity.setPassword(getSHA256(userEntity.getPassword()));
             userEntity.setSociety(null);
-            userEntity.setSocietyUser(null);
             LocalDate date = LocalDate.now();
             userEntity.setInitDate(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
             return userRepository.save(userEntity);

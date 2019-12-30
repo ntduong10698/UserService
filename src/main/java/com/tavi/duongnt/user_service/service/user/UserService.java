@@ -1,6 +1,7 @@
 package com.tavi.duongnt.user_service.service.user;
 
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
+import com.tavi.duongnt.user_service.payload.user.RegisterForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,7 +18,7 @@ public interface UserService {
 
     long countByUsernameAndDeleted(String username, boolean deleted);
 
-    UserEntity register(UserEntity userEntity);
+    UserEntity register(RegisterForm registerForm);
 
     long countByEmailAndDeleted(String email, boolean deleted);
 
