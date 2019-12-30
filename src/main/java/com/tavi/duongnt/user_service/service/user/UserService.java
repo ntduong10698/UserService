@@ -8,12 +8,20 @@ import java.util.List;
 
 public interface UserService {
     int deleteList(List<Integer> listId);
+
     int delete(int id);
+
     int deleteBySocietyId(int societyId);
-    UserEntity findById(int id, boolean status);
-    long countByUsernameAndStatus(String username, boolean status);
+
+    UserEntity findById(int id, boolean deleted);
+
+    long countByUsernameAndDeleted(String username, boolean deleted);
+
     UserEntity register(UserEntity userEntity);
-    long countByEmailAndStatus(String email, boolean status);
-    UserEntity findByUsernameAndPasswordAndStatus(String username, String password, boolean status);
+
+    long countByEmailAndDeleted(String email, boolean deleted);
+
+    UserEntity findByUsernameAndPasswordAndDeleted(String username, String password, boolean deleted);
+
     Page<UserEntity> findAll(int page, int size);
 }
