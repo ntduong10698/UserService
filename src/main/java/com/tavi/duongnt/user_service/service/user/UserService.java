@@ -1,6 +1,8 @@
 package com.tavi.duongnt.user_service.service.user;
 
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -13,4 +15,5 @@ public interface UserService {
     UserEntity register(UserEntity userEntity);
     long countByEmailAndStatus(String email, boolean status);
     UserEntity findByUsernameAndPasswordAndStatus(String username, String password, boolean status);
+    Page<UserEntity> findAll(int page, int size);
 }

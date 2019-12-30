@@ -5,6 +5,10 @@ import com.tavi.duongnt.user_service.repository.user.UserRepository;
 import com.tavi.duongnt.user_service.service.user.UserService;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
@@ -84,7 +88,6 @@ public class UserServiceImp implements UserService {
             LocalDate date = LocalDate.now();
             userEntity.setInitDate(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
             UserEntity newUser = userRepository.save(userEntity);
-            newUser.setPassword("");
             return newUser;
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "register: {0}", ex.getMessage());
@@ -106,14 +109,19 @@ public class UserServiceImp implements UserService {
     public UserEntity findByUsernameAndPasswordAndStatus(String username, String password, boolean status) {
         try {
             UserEntity user = userRepository.findByUsernameAndPasswordAndStatus(username, getSHA256(password), status);
-            System.out.println(user);
-            if (user != null) {
-                user.setPassword("");
-                return user;
-            }
-            return null;
+            return user;
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "find-by-username-and-password-and-status: {0}", ex.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Page<UserEntity> findAll(int page, int size) {
+        try {
+            return userRepository.findAll(PageRequest.of(page -1 , size, Sort.by("id").descending()));
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "find-all-pageable: {0}", ex.getMessage());
             return null;
         }
     }
