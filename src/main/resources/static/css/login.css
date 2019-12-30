@@ -167,8 +167,8 @@ ul.tick li input[type="checkbox"]:checked+label span:first-child:before {
 }
 
 .social-icons ul li {
-    float: left;
-    width: 32.9%;
+    width: 110px;
+    margin-right: 5px;
 }
 
 li.twt {
@@ -381,7 +381,7 @@ input[type="text"], input[type="password"] {
         padding-left: 36px;
     }
     .social-icons ul li {
-        width: 32.8%;
+        width: 110px;
     }
     .register p {
         font-size: 14px;
