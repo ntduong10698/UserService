@@ -2,6 +2,8 @@ package com.tavi.duongnt.user_service.entities.user;
 
 import com.sun.istack.Nullable;
 import com.tavi.duongnt.user_service.entities.society.SocietyEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_User_CMS", schema = "dbo")
 public class UserEntity implements Serializable {
     @Id
@@ -49,4 +53,8 @@ public class UserEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "society_id")
     private SocietyEntity society;
+
+    public UserEntity() {
+    }
+
 }
