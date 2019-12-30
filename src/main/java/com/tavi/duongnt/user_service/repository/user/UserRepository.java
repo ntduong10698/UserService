@@ -36,14 +36,14 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Page<UserEntity> findAll(Pageable pageable);
 
-    @Query("select u from UserEntity u where u.username like concat('%',?1,'%') " +
-            "and u.email like concat('%', ?2, '%') " +
-            "and u.phoneNumber like concat('%', ?2, '%')" +
-            "and u.lastName like concat('%', ?3, '%') " +
-            "and u.firstName like concat('%', ?4, '%')" +
-            "and (u.gender = ?5 or u.gender is null)" +
-            "and u.address like concat('%',?5,'%') " +
-            "and u.birthday like concat('%',?6,'%') " +
-            "and u.socieity.")
-    List<UserEntity> filter()
+//    @Query("select u from UserEntity u where u.username like concat('%',?1,'%') " +
+//            "and u.email like concat('%', ?2, '%') " +
+//            "and u.phoneNumber like concat('%', ?2, '%')" +
+//            "and u.lastName like concat('%', ?3, '%') " +
+//            "and u.firstName like concat('%', ?4, '%')" +
+//            "and (u.gender = ?5 or u.gender is null)" +
+//            "and u.address like concat('%',?5,'%') " +
+//            "and u.birthday like concat('%',?6,'%') " +
+//            "and u.socieity.")
+//    List<UserEntity> filter()
 }
