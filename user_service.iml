@@ -108,7 +108,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.tomee:openejb-core:8.0.0-M2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.tomee:mbean-annotation-api:8.0.0-M2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.tomee:openejb-jpa-integration:8.0.0-M2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-lang3:3.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.tomee:openejb-api:8.0.0-M2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.tomee:openejb-loader:8.0.0-M2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.tomee:openejb-javaagent:8.0.0-M2" level="project" />
@@ -211,6 +210,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.2.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.sun.mail:jakarta.mail:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: com.sun.activation:jakarta.activation:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.9" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-ui:2.8.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tiles:tiles-api:3.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tiles:tiles-request-api:1.0.7" level="project" />

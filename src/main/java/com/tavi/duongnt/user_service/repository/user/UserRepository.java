@@ -14,15 +14,11 @@ import java.util.List;
 @Repository
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+
     @Transactional
     @Modifying
     @Query("update UserEntity u set u.deleted = true where u.id in (?1)")
     int deleted(List<Integer> listId);
-
-    @Transactional
-    @Modifying
-    @Query("update UserEntity u set u.deleted = true where u.society.id = ?1")
-    int deleteBySocietyId(int societyId);
 
     UserEntity findByIdAndDeleted(int id, boolean deleted);
 
@@ -37,16 +33,18 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     UserEntity findByUsernameAndPasswordAndDeleted(String username, String password, boolean deleted);
 
-    Page<UserEntity> findAll(Pageable pageable);
+    @Query("select u from UserEntity u where (u.deleted = ?1 or ?1 is null)")
+    Page<UserEntity> findAll(Boolean deleted, Pageable pageable);
 
-//    @Query("select u from UserEntity u where u.username like concat('%',?1,'%') " +
-//            "and u.email like concat('%', ?2, '%') " +
-//            "and u.phoneNumber like concat('%', ?2, '%')" +
-//            "and u.lastName like concat('%', ?3, '%') " +
-//            "and u.firstName like concat('%', ?4, '%')" +
-//            "and (u.gender = ?5 or u.gender is null)" +
-//            "and u.address like concat('%',?5,'%') " +
-//            "and u.birthday like concat('%',?6,'%') " +
-//            "and u.socieity.")
-//    List<UserEntity> filter()
+
+    @Query("select u from UserEntity u where u.username like concat('%',?1,'%') " +
+            "and u.email like concat('%', ?2, '%') " +
+            "and u.phoneNumber like concat('%', ?3, '%')" +
+            "and u.lastName like concat('%', ?4, '%') " +
+            "and u.firstName like concat('%', ?5, '%')" +
+            "and (u.gender = ?6 or ?6 = 0)" +
+            "and u.address like concat('%',?7,'%') " +
+            "and u.birthday like concat('%',?8,'%') ")
+    List<UserEntity> filter(String username, String email, String phoneNumber, String lastName, String firstName,
+                            int gender, String address, String birthday);
 }

@@ -12,9 +12,11 @@ public interface UserService {
 
     int delete(int id);
 
-    int deleteBySocietyId(int societyId);
-
     UserEntity findById(int id, boolean deleted);
+
+    UserEntity updateUser(UserEntity userEntity);
+
+    UserEntity findByUsername(String username);
 
     long countByUsernameAndDeleted(String username, boolean deleted);
 
@@ -24,5 +26,5 @@ public interface UserService {
 
     UserEntity findByUsernameAndPasswordAndDeleted(String username, String password, boolean deleted);
 
-    Page<UserEntity> findAll(int page, int size);
+    Page<UserEntity> findAll(Boolean deleted,int page, int size);
 }

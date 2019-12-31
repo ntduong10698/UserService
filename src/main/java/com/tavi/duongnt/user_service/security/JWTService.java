@@ -33,4 +33,8 @@ public class JWTService {
             return null;
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println(new JWTService().decode("ShibaInueyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjE1Nzc3ODc1MDR9.lPrUW8h9IcK6Cr29BlB_4fpv1RnGC0wtVlyHtribAPWZlUYFT2bQ3NoBjMhoh8BaO0l10Q_ZYrOwdqnoV3AxRQ"));
+    }
 }

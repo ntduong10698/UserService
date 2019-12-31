@@ -4,15 +4,13 @@ import com.tavi.duongnt.user_service.entities.json.JsonResult;
 import com.tavi.duongnt.user_service.entities.json.PageResult;
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
 import com.tavi.duongnt.user_service.service.user.UserService;
+import com.tavi.duongnt.user_service.utils.EncodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.spring.web.json.Json;
 
 import java.lang.reflect.Array;
@@ -36,6 +34,19 @@ public class UserControllerAdmin {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<JsonResult> update(@RequestBody UserEntity userEntity,
+                                             @RequestParam(value = "change-password", defaultValue = "false", required = false) boolean changePass){
+        if (changePass){
+            userEntity.setPassword(EncodeUtils.getSHA256(userEntity.getPassword()));
+        }
+        UserEntity newUser = userService.updateUser(userEntity);
+        if (newUser != null){
+            return ResponseEntity.ok(JsonResult.build("update success",newUser));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @GetMapping("/find-by-id")
     public ResponseEntity<JsonResult> findById(@RequestParam("id") int id) {
         UserEntity userEntity = userService.findById(id, true);
@@ -46,9 +57,10 @@ public class UserControllerAdmin {
     }
 
     @GetMapping("/find-all")
-    public ResponseEntity<PageResult> findAll(@RequestParam(value = "page", defaultValue = "1", required = false) int page,
+    public ResponseEntity<PageResult> findAll(@RequestParam(value = "deleed", defaultValue = "false", required = false) Boolean deleted
+                                                ,@RequestParam(value = "page", defaultValue = "1", required = false) int page,
                                               @RequestParam(value = "size", defaultValue = "10", required = false) int size){
-        Page<UserEntity> listUser = userService.findAll(page, size);
+        Page<UserEntity> listUser = userService.findAll(deleted,page, size);
         if (listUser != null) {
             return ResponseEntity.ok(PageResult.build("success", listUser.toList(), listUser.getTotalElements(), listUser.getTotalPages()));
         }

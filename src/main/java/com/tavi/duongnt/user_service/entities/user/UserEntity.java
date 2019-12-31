@@ -1,10 +1,10 @@
 package com.tavi.duongnt.user_service.entities.user;
 
 import com.sun.istack.Nullable;
-import com.tavi.duongnt.user_service.entities.society.SocietyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Table(name = "tb_User_CMS", schema = "dbo")
 public class UserEntity implements Serializable {
@@ -34,7 +35,7 @@ public class UserEntity implements Serializable {
     @Column(name = "first_name")
     private String firstName;
 
-    private Boolean gender;
+    private Integer gender;
 
     private String address;
 
@@ -46,15 +47,8 @@ public class UserEntity implements Serializable {
 
     @Nullable
     @Column(nullable = false)
-    private int status;
+    private Integer status;
 
-    private boolean deleted = false;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "society_id")
-    private SocietyEntity society;
-
-    public UserEntity() {
-    }
+    private Boolean deleted;
 
 }
