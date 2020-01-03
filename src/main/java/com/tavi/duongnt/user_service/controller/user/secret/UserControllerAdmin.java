@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.spring.web.json.Json;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +45,15 @@ public class UserControllerAdmin {
         if (newUser != null){
             return ResponseEntity.ok(JsonResult.build("update success",newUser));
         }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<JsonResult> profile(HttpServletRequest request){
+        String username = request.getUserPrincipal().getName();
+        UserEntity userEntity = userService.findByUsername(username);
+        if (userEntity != null)
+            return ResponseEntity.ok(JsonResult.build("success",userEntity));
         return ResponseEntity.badRequest().build();
     }
 
