@@ -79,7 +79,7 @@ public class ViewController {
         }
         return "/404";
     }
-
+    //
     @GetMapping("/login-linkedin")
     public String loginLinkedin(){
         return "redirect:"+linkedlnService.createLinkedlnAuthorizationURL();

@@ -15,6 +15,7 @@ import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,8 +72,9 @@ public class LinkedInService_Impl implements LinkedInService {
     @Override
     public UserEntity createUser() {
         try {
+
             String link = linkUser+"oauth2_access_token="+accessToken;
-            String response = Request.Get(link).execute().returnContent().asString();
+            String response = Request.Get(link).addHeader("Content-Type","application/json").execute().returnContent().asString();
             System.out.println(LinkedInService_Impl.class.getName() + " : " + response);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "create-user-error: {0}" + ex.getMessage());
