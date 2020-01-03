@@ -36,7 +36,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query("select u from UserEntity u where (u.deleted = ?1 or ?1 is null)")
     Page<UserEntity> findAll(Boolean deleted, Pageable pageable);
 
-
     @Query("select u from UserEntity u where u.username like concat('%',?1,'%') " +
             "and u.email like concat('%', ?2, '%') " +
             "and u.phoneNumber like concat('%', ?3, '%')" +

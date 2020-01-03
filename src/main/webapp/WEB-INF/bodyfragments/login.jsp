@@ -24,9 +24,9 @@
         <div class="social-icons w3layouts agileits">
             <p>- Hoặc Đăng Nhập Với -</p>
             <ul>
-                <li><a href="#"><span class="icons w3layouts agileits"></span><span class="text w3layouts agileits">Facebook</span></a></li>
+                <li><a href="login-facebook"><span class="icons w3layouts agileits"></span><span class="text w3layouts agileits">Facebook</span></a></li>
                 <li class="twt w3ls"><a href="#"><span class="icons w3layouts"></span><span class="text w3layouts agileits">Twitter</span></a></li>
-                <li class="ggp aits"><a href="#"><span class="icons agileits"></span><span class="text w3layouts agileits">Google+</span></a></li>
+                <li class="ggp aits"><a href="login-google"><span class="icons agileits"></span><span class="text w3layouts agileits">Google</span></a></li>
                 <div class="clear"> </div>
             </ul>
         </div>

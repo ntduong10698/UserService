@@ -41,6 +41,8 @@ public class UserEntity implements Serializable {
 
     private String birthday;
 
+    private Integer social;
+
     @Column(name = "init_date", nullable = false)
     @Nullable
     private String initDate;
