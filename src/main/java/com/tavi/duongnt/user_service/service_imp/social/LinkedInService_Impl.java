@@ -1,30 +1,24 @@
 package com.tavi.duongnt.user_service.service_imp.social;
 
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
-import com.tavi.duongnt.user_service.repository.user.UserRepository;
-import com.tavi.duongnt.user_service.service.social.LinkedInService;
+import com.tavi.duongnt.user_service.service.social.SocialService;
 import org.apache.http.client.fluent.Request;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.social.linkedin.api.LinkedIn;
-import org.springframework.social.linkedin.api.LinkedInProfile;
-import org.springframework.social.linkedin.api.LinkedInProfileFull;
-import org.springframework.social.linkedin.api.impl.LinkedInTemplate;
 import org.springframework.social.linkedin.connect.LinkedInConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-public class LinkedInService_Impl implements LinkedInService {
+public class LinkedInService_Impl implements SocialService {
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Value("${spring.social.linkedln.appId}")
     private String consumerId;
@@ -43,7 +37,7 @@ public class LinkedInService_Impl implements LinkedInService {
     private static final Logger LOGGER = Logger.getLogger(LinkedInService_Impl.class.getName());
 
     @Override
-    public String createLinkedlnAuthorizationURL() {
+    public String createAuthorizationURL() {
         try {
             LinkedInConnectionFactory connectionFactory = new LinkedInConnectionFactory(consumerId, secretKey);
             OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
@@ -58,7 +52,7 @@ public class LinkedInService_Impl implements LinkedInService {
     }
 
     @Override
-    public void createLinkedlnAccessToken(String code) {
+    public void createAccessToken(String code) {
         try {
             LinkedInConnectionFactory connectionFactory = new LinkedInConnectionFactory(consumerId, secretKey);
             AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, redirect, null);
@@ -72,10 +66,22 @@ public class LinkedInService_Impl implements LinkedInService {
     @Override
     public UserEntity createUser() {
         try {
-
-            String link = linkUser+"oauth2_access_token="+accessToken;
-            String response = Request.Get(link).addHeader("Content-Type","application/json").execute().returnContent().asString();
+            String link = linkUser;
+            String response = Request.Get(link)
+                    .addHeader("Content-Type","application/json")
+                    .addHeader("Authorization","Bearer "+accessToken)
+                    .execute().returnContent().asString();
+            JSONObject object = new JSONObject(response);
             System.out.println(LinkedInService_Impl.class.getName() + " : " + response);
+            return UserEntity.builder()
+                    .username("linkedin"+object.getString("id"))
+                    .firstName(object.getString("localizedFirstName"))
+                    .lastName(object.getString("localizedLastName"))
+                    .social(4)
+                    .status(1)
+                    .deleted(false)
+                    .initDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
+                    .build();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "create-user-error: {0}" + ex.getMessage());
             ex.printStackTrace();

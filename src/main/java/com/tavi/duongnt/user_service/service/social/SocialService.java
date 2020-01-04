@@ -2,12 +2,12 @@ package com.tavi.duongnt.user_service.service.social;
 
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
 
-public interface LinkedInService {
+public interface SocialService {
 
-    String createLinkedlnAuthorizationURL();
+    String createAuthorizationURL();
 
-    void createLinkedlnAccessToken(String code);
+    void createAccessToken(String code);
 
     UserEntity createUser();
-    
+
 }

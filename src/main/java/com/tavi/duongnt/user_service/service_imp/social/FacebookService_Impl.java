@@ -6,7 +6,7 @@ import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.json.JsonObject;
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
-import com.tavi.duongnt.user_service.service.social.FacebookService;
+import com.tavi.duongnt.user_service.service.social.SocialService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-public class FacebookService_Impl implements FacebookService {
+public class FacebookService_Impl implements SocialService {
 
     @Value("${spring.social.facebook.appId}")
     private String facebookAppId;
@@ -40,7 +40,7 @@ public class FacebookService_Impl implements FacebookService {
     private static final Logger LOGGER = Logger.getLogger(FacebookService_Impl.class.getName());
 
     @Override
-    public String createFacebookAuthorizationURL() {
+    public String createAuthorizationURL() {
         try {
             FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookAppSecret);
             OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
@@ -56,7 +56,7 @@ public class FacebookService_Impl implements FacebookService {
     }
 
     @Override
-    public void createFacebookAccessToken(String code) {
+    public void createAccessToken(String code) {
         try {
             FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookAppSecret);
             AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, redirect, null);
@@ -75,7 +75,7 @@ public class FacebookService_Impl implements FacebookService {
             System.out.println("User=" + user);
             String[] date = user.getString("birthday", "").split("/");
             return UserEntity.builder()
-                    .username(user.get("id").asString())
+                    .username("facebook"+user.get("id").asString())
                     .email(user.getString("email", ""))
                     .firstName(convertUTF8(user.getString("first_name", "")))
                     .lastName(convertUTF8(user.getString("last_name", "")))

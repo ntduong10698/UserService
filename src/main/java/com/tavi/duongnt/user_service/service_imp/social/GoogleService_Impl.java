@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavi.duongnt.user_service.entities.user.GooglePojo;
 import com.tavi.duongnt.user_service.entities.user.UserEntity;
 import com.tavi.duongnt.user_service.repository.user.UserRepository;
-import com.tavi.duongnt.user_service.service.social.GoogleService;
+import com.tavi.duongnt.user_service.service.social.SocialService;
 import lombok.Getter;
 import org.apache.http.client.fluent.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 @Service
 @Getter
-public class GoogleService_Impl implements GoogleService {
+public class GoogleService_Impl implements SocialService {
 
     @Autowired
     private UserRepository userRepository;
@@ -45,7 +45,7 @@ public class GoogleService_Impl implements GoogleService {
     private static final Logger LOGGER = Logger.getLogger(GoogleService_Impl.class.getName());
 
     @Override
-    public String createGoogleAuthorizationURL() {
+    public String createAuthorizationURL() {
         try {
             GoogleConnectionFactory connectionFactory = new GoogleConnectionFactory(appId, appSecret);
             OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
@@ -60,7 +60,7 @@ public class GoogleService_Impl implements GoogleService {
     }
 
     @Override
-    public void createGoogleAccessToken(String code) {
+    public void createAccessToken(String code) {
         try {
             GoogleConnectionFactory connectionFactory = new GoogleConnectionFactory(appId, appSecret);
             AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, redirect, null);
@@ -81,7 +81,7 @@ public class GoogleService_Impl implements GoogleService {
             GooglePojo pojo = mapper.readValue(response, GooglePojo.class);
             userID = pojo.getId();
             return UserEntity.builder()
-                    .username(pojo.getId())
+                    .username("google" + pojo.getId())
                     .email(pojo.getEmail())
                     .lastName(pojo.getFamily_name())
                     .firstName(pojo.getGiven_name())
